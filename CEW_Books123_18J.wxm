@@ -1,0 +1,3913 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 18.02.0 ] */
+/* [wxMaxima: title   start ]
+MS327: Computer Exploration Worksheet
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Welcome to the Computer Exploration Worksheet.
+
+Here you will find a variety of materials to support your study of the
+computational exercises in the units. These range from solutions to the
+exercises to more detailed descriptions of commands and programming methods.
+
+Remember that you can get help by typing ? topic or ?? topic. Often there is
+very useful advice on using Maxima available online. If the built-in help
+information is not sufficient, try typing a brief query such as 'Maxima Bessel
+function' into a search engine such as Google.
+
+This worksheet is divided in to sections, each section contains the computer
+activities for the corresponding unit in the text.  Initially all of these sections 
+are folded. To unfold a section either click on the black square or select the
+menu item "Cell|Unfold all" to see all of the sections.
+
+
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: title   start ]
+Unit 1
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: section start ]
+Solution to Exercise 3
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The first line of the code below defines a function that describes the solution
+of the logistic equation (equation (7) in the text), for the given parameter
+values, with the initial position x0 and time t as arguments.  The second line
+plots this as a function of time, for the three different initial conditions.
+The legend option is used to annotate the graph.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+f(x0,t):=x0/(x0+(1-x0)*exp(-t));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([f(0.1,t),f(1.2,t),f(0.8,t)],[t,0,10],
+    [legend,"x0=0.1","x0=1.2","x0=0.8"],[ylabel,"f(x0,t)"]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Solution to Exercise 19
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The Bessel functions Jn and Yn are available in Maxima by typing    ?? Bessel.
+You will discover that Maxima interprets bessel_j(n,x) as the Bessel function
+Jn of order n, evaluated at x.  By typing    ?? special functions    you will
+find that many other functions are recognised by Maxima.  The following line of
+code reproduces Figure 18 of the unit. You can change the name of the function
+to see graphs of other functions.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([bessel_j(0,x),bessel_j(1,x),bessel_j(2,x)],[x,0,20]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: title   start ]
+Unit 2
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: section start ]
+Lissajous curves
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The code below plots the Lissajous curves for the symmetric coupled oscillator,
+as a function of the angular frequencies, w1 and w2, of each oscillator. It
+produces two plots: the first is Figure 9(c) of the unit (with w1/w2=3/5); the
+second is Figure 8 (with w1/w2=1/sqrt(2)).
+
+Run the following code in Maxima to check that these figures are reproduced.
+Then do Exercise 8.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define two functions x1(t,w1,w2) and x2(t,w1,w2) that give the positions of
+each oscilator as a function of time t and the angular frequencies w1 and w2.
+
+The following definitions are for the symmetric coupled oscillator with initial
+conditions (x1(0),x2(0))=(1,0) and (x1'(0),x2'(0))=(0,1).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x1(t,w1,w2):=0.5*cos(w1*t)+0.5*cos(w2*t)+0.5*sin(w1*t)/w1-0.5*sin(w2*t)/w2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x2(t,w1,w2):=0.5*cos(w1*t)-0.5*cos(w2*t)+0.5*sin(w1*t)/w1+0.5*sin(w2*t)/w2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following three lines check that these functions do satisfy the initial
+conditions (x1(0),x2(0))=(1,0) and (x1'(0),x2'(0))=(0,1).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[x1(0,w1,w2),x2(0,w1,w2)];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dx1:diff(x1(t,w1,w2),t)$  dx2:diff(x2(t,w1,w2),t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+[ev(dx1,t=0),  ev(dx2,t=0)];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+So the functions do satisfy the stated initial conditions.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Now we plot the Lissajous curves.   First for w1=3 and w2=5, and for 0<t<50,
+corresponding to Figure 9(c).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([parametric, x1(t,3,5), x2(t,3,5), [t,0,50]],
+  [xlabel,"x1"],[ylabel,"x2"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now for w1=1 and w2=sqrt(2), and for 0<t<400, corresponding to Figure 8.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([parametric, x1(t,1,sqrt(2)), x2(t,1,sqrt(2)),[t,0,400]],
+  [xlabel,"x1"],[ylabel,"x2"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now try to do Exercise 8 of the unit, by modifying the last command
+appropriately.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 8
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+(a)  For w1=4, w2=6 (and 0<t<50) we get
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([parametric, x1(t,4,6), x2(t,4,6), [t,0,50]],
+  [xlabel,"x1"],[ylabel,"x2"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+(b) For w1=1, w2=%pi (and 0<t<400) we get
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([parametric, x1(t,1,%pi), x2(t,1,%pi), [t,0,400]],
+  [xlabel,"x1"],[ylabel,"x2"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The plot in part (b) provides another illustration of the fact that when w1/w2
+is irrational, the Lissajous curve never traces back on itself.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Fourier series
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The code below calculates the Fourier series of a function f(t) with period L,
+and plots the Fourier series, truncated to N terms, on the same graph as f(t).
+
+Run the following code in Maxima and check that for the function defined below,
+the truncated Fourier series approximates the sawtooth function of Exercise 22.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define the function f(t) and the period L (taken from Exercise 22).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+f(t):=t;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+L:2*%pi;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Calculate the Fourier coefficient.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+c(n):=expand((1/L)*integrate(f(t)*exp(-2*%i*n*%pi*t/L),t,-L/2,L/2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Check a few Fourier coefficients to make sure Maxima can do the integral.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+makelist(c(i),i,0,3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+So Maxima has no problem doing the integral.
+
+Now find the Fourier series truncated to 2N+1 terms.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+F(t,N):=sum(c(n)*exp(2*%i*n*%pi*t/L),n,-N,N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Plot the truncated Fourier series and the original function. Note that Maxima
+has trouble recognising that F is a real function, so we help it by taking the
+real part in the plotting command.
+
+In the following we set N=10, so we are plotting the first 21 terms.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([realpart(F(t,10)),f(t)],[t,-L/2,L/2],[legend,"F(t)","f(t)"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+So the truncated Fourier series does approximate the original function quite
+well. If we were to take more terms in the series, the approximation would
+improve.
+
+Now try to do Exercise 24, by appropriately modifying the code above. 
+(Hint: You need to define two functions: one for t<0 and one for t>0, 
+and perform the integrals separately.)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 24
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We first define the function and the period (taken from Exercise 23).
+
+Since the function is piecewise, it is best to define each part separately. Let
+f1(t)=-t  be the function for -%pi < t < 0 and f2(t)=t  be the function for
+0 < t < %pi .
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+f1(t):=-t$   f2(t):=t$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The period is
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+L:2*%pi$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Next we calculate the Fourier coefficient.
+
+To do this we must perform the two parts of the integral separately.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+c(n):=expand((1/L)*(integrate(f1(t)*exp(-2*%i*n*%pi*t/L),t,-L/2,0)+
+                    integrate(f2(t)*exp(-2*%i*n*%pi*t/L),t,0,L/2)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Check a few Fourier coefficients to make sure Maxima can do the integral.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+makelist(c(i),i,0,3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Find the Fourier series truncated to 2N+1 terms.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+F(t,N):=sum(c(n)*exp(2*%i*n*%pi*t/L),n,-N,N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Plot the truncated Fourier series. Note that Maxima has trouble recognising that
+F is a real function, so we help it by taking the real part in the plotting
+command.
+
+In the following we set N=10, so we are plotting the first 21 terms.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([realpart(F(t,10))],[t,-L/2,L/2]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+You are not asked to plot the original piecewise function in the question.
+However, if you did want to plot it, you could proceed as follows.
+
+First define f(t) using an if construction.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+f(t):= if t<0 then -t else t $
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Set N=5, so we plot the first 11 terms of the Fourier series, and compare with
+the original function.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([realpart(F(t,5)),f(t)],[t,-L/2,L/2],[legend,"F(t)","f(t)"]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Periodic forcing
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The code below reproduces Figures 34(a) and 34(b) of Unit 2. Run this code and
+check that these figures are reproduced.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+First use Maxima to create the Fourier series representation of the solution of
+Example 8.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define the Fourier coefficients for the solution as in equation (59) (here we
+denote Gamma by G and the Fourier coefficient of the driving term by fc(n)).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+xc(n):=fc(n)/((w0^2-n^2*w^2)+2*G*%i*n*w);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From Example 8, the driving term has angular frequency w=1, and Fourier
+coefficients fc(n) (for n not equal to 0) given by
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+w:1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fc(n):=(-1)^n*%i/n;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Sum from n=-10 to n=10 in equation (61).  We do this in three bits: from n=-10
+to -1, for n=0, and from n=1 to 10. Then we set the n=0 term to zero because
+fc(0)=0.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x1(t):=sum(xc(n)*exp(%i*n*w*t),n,-10,-1) + sum(xc(n)*exp(%i*n*w*t),n,1,10);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Maxima has trouble recognising that this is a real function  ... but we can see
+that it is, by checking that the imaginary part of x1 vanishes.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+imagpart(x1(t));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+So now let us set x to be the real part of x1 and define G=0.05 and w0=2.5   in
+order to reproduce Figure 34(a): the solution of the damped harmonic oscillator
+with sawtooth driving force.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x(t):=realpart(ev(x1(t),[G=0.05,w0=2.5]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(x(t),[t,0,20]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now we are going to plot the maximum amplitude of oscillation as a function of
+w0. First define the oscillation as a function of t and w0 for G=0.05.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x2(t,w0):=float(realpart(ev(x1(t),[G=0.05])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now define a function that evaluates x2(t,w0) for t from 0 to 5 (in steps of
+0.1), and finds the maximum absolute value. Note that this code is more
+advanced than we would expect you to write on your own at this stage in the
+module.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+maxx(w0):=(
+  xmax:0,
+  for t:0 thru 5 step 0.1 do (
+    if abs(x2(t,w0))>xmax then xmax:abs(x2(t,w0))
+  ),
+  xmax
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Check that this works.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+maxx(2.5);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This tells us that the maximum amplitude of the oscillation at w0=2.5 is about
+0.85. We can see that this is correct by examining the graph produced above
+which has maximum amplitude at about t=4, 11, ...
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Now create a list of maximum amplitudes from w0=0.5 to w0=5 (in steps of 0.1),
+and plot them (this takes a few seconds ... please be patient).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dat:makelist([w0,maxx(w0)],w0,0.5,5,0.1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,dat],[xlabel,"w0"],[ylabel,"Maximum Amplitude"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We see that there are resonances at w0=1,2,3,...
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Now try to do Exercise 27, by appropriately modifying the code above. (Hint: You
+will only need to change the definition of fc(n).)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 27
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define the Fourier coefficients for the solution: equation (59).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+xc(n):=fc(n)/((w0^2-n^2*w^2)+2*G*%i*n*w);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From Example 6, the driving term has angular frequency w=1, and Fourier
+coefficients fc(n) (for n not zero) given by
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+w:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fc(n):=((-1)^n-1)*%i/(%pi*n);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Sum from n=-10 to n=10 (remembering that fc(0)=0) in equation (61).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x1(t):=sum(xc(n)*exp(%i*n*w*t),n,-10,-1) + sum(xc(n)*exp(%i*n*w*t),n,1,10);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Check that we have a real function
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+imagpart(x1(t));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now set x to be the real part of x1, and set G=0.1 and w0=2.75 as required in
+the exercise.  Then plot x as a function of t.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x(t):=realpart(ev(x1(t),[G=0.1,w0=2.75]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(x(t),[t,0,20]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now plot the maximum amplitude of oscillation as a function of w0. First define
+the oscillation as a function of t and w0 for G=0.1.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x2(t,w0):=float(realpart(ev(x1(t),[G=0.1])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define the function that evaluates x2(t,w0) for t from 0 to 5 (in steps of 0.1),
+and find the maximum absolute value.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+maxx(w0):=(
+  xmax:0,
+  for t:0 thru 5 step 0.1 do (
+    if abs(x2(t,w0))>xmax then xmax:abs(x2(t,w0))
+  ),
+  xmax
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Create a list of maximum amplitudes from w0=0.5 to w0=8 (in steps of 0.1), and
+plot them.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dat:makelist([w0,maxx(w0)],w0,0.5,8,0.1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,dat],[xlabel,"w0"],[ylabel,"Maximum Amplitude"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We see that resonances occur at w0=1,3,5,...
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: title   start ]
+Unit 3
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: section start ]
+Programming with loops 
+(Subsection 6.1)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following code prints the integers from 1 to 10, corresponding to the
+flowchart in Figure 21.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru 10 do print(n)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Numerical iteration 
+(Subsection 6.2)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: subsect start ]
+Solution to Example 8
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Start by initializing the variables.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The steps in the pseudocode can be transcribed into Maxima as follows.
+
+First do Steps 1 and 2.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+S:0$ N:20$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Step 3:  Enter the required loop.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do (S:S+n)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Step 4: The following print statement prints N, followed by the sum obtained
+from the loop, which, for comparison, is then followed by the analytical
+expression:   N(N+1)/2.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+print(N, S, N*(N+1)/2)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 23
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+In the following code, N is set to 10 (the test value specified by the exercise)
+and Nfac is initially set to 1 so that after passing through the loop it becomes
+N!.  The print statement prints N followed by Nfac, which, for comparison, is
+then followed by N! as determined by direct means.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:10$  Nfac:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do (Nfac:n*Nfac)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print(N, Nfac, N!)$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 24
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Parameter values are set to N=10, a=1.0 and r=0.4 as specified by the exercise.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:10$ a:1.0$ r:0.4$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The sum of the geometric progression, Sgp, is initially set to Sgp=a before
+passing through the loop.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Sgp:a$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do (Sgp:Sgp + a*r^n)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following code prints N, followed by Sgp as obtained by the loop, which, for
+comparison, is then followed by the value determined from the analytical
+expression.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+print(N, Sgp, a*(1 - r^(N+1))/(1-r))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 25
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following code prints out the Fibonacci numbers, F(1), ..., F(N), tested
+with N=10 as required by the exercise. The results are printed as a table with n
+in the first column and F(n) in the second column, with n ranging from 1 to 10.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:10$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+F0:0$ F1:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do (print(n,F1), 
+                 F2:F0+F1,
+                 F0:F1, F1:F2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Below is an alternative program with a simplified loop statement that does not
+require the F2 variable but instead replaces the list [F0,F1] by [F1,F0+F1].
+and then display it through the following command.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:10$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+F0:0$ F1:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do (print(n,F1),
+                 [F0,F1]:[F1,F0+F1])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Exploring the logistic map 
+(Subsection 6.3) 
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+This subsection presents a brief numerical exploration of the logistic map: x ->
+ax(1-x). Here we use Maxima to recreate the plots shown in Figures 23(b), 24 and
+25 of the unit. Run this Maxima code to check that the relevant plots are
+produced, then attempt Exercise 26.
+
+Start by defining a function in Maxima, called 'orbit(x0,a,N)', that calculates
+the orbit of x0 under the logistic map for a given value of 'a' and with N
+points. The result is given as a list of coordinates (n,x_n), n=0,1,...,N. This
+corresponds to the pseudocode given in the box, of Subsection 6.3, titled
+"Computation of an orbit under the logistic map". Note that we have used the 'block'
+command with 'x' and 'xorbit' being local variables (see Software Guide).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(x0,a,N):=block( [x,xorbit],
+  x:x0, xorbit:[[0,x]],
+  for k thru N do (x:a*x*(1-x), xorbit:append(xorbit,[[k,x]])),xorbit )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Next, we calculate the orbit (for example) where x0=0.2, a=3.10 and N=40, 
+which we call 'orb'.  This is then plotted, and corresponds to the plot given in
+Figure 23(b). Further plots can be obtained by varying the value of 'a'.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb:orbit(0.2,3.10,40)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,orb],[style,[linespoints,1,2]],[xlabel,"n"],[ylabel,"x_n"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that on some operating systems, the "linespoints" option does not produce
+any points on the graph.  In this case the following command can be used, where
+the points in orb are plotted twice, once as a line graph and once as a set of
+points: wxplot2d([[discrete,orb],[discrete,orb]],[style,[lines],[points,1]],
+[legend, false],[xlabel,"n"],[ylabel,"x_n"]); Likewise for the remaining plots
+in this unit.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+To investigate chaotic behaviour, which we suspect occurs at a=3.98, for
+example, we compare two orbits that are initially very close together. To do
+this, we calculate one orbit starting at x0=0.2, and call it 'orb1', and
+another orbit starting at x0=0.20000001, called 'orb2'. The two orbits are then
+plotted on the same graph.  This corresponds to Figure 24.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb1:orbit(0.2,3.98,60)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orb2:orbit(0.20000001,3.98,60)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,orb1],[discrete,orb2]],
+[style,[linespoints,1,1,1,14],[linespoints,1,1,2,14]],
+[xlabel,"n"],[ylabel,"x_n"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The plot seems to indicate extreme sensitivity to initial conditions. To see how
+the distance between the two orbits grows with discrete time, we compute the
+distance (i.e. absolute difference) between the two orbits and plot the result
+against time.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+distorbs:abs(orb1-orb2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for k thru length(distorbs) do (distorbs[k][1]:k-1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,distorbs],[style,[linespoints,1,2]],[xlabel,"n"],[ylabel,"distorbs"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To check that this extreme sensitivity to initial conditions is exponential , we
+calculate the natural logarithm of the distance and plot the result.  A straight
+line on such a plot would indicate an exponential sensitivity to initial
+conditions. 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+logdistorbs:distorbs$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for k thru length(logdistorbs) do (logdistorbs[k][2]:log(distorbs[k][2]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,logdistorbs],[style,[linespoints,1,2]],
+  [xlabel,"n"],[ylabel,"log(distorbs)"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This corresponds to the plot in Figure 25.
+
+Now attempt Exercise 26, by using the function orbit defined above.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 26
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+(a)  The required orbits are generated by using the function orbit(x0,a,N), as
+before.  Set a=3.74 and proceed as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb:orbit(0.2,3.74,50);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that the previous line was terminated by a semicolon in order for the
+output to be displayed and thereby showing the values that the orbit converges
+to.  The orbit is plotted as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,orb],[style,[linespoints,1,2]],[xlabel,"n"],[ylabel,"x_n"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This shows that for a=3.74, the orbit converges to a period-5 orbit.
+
+(b) Proceed as in part (a) but with a=3.83.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb:orbit(0.2,3.83,50);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,orb],[style,[linespoints,1,2]],[xlabel,"n"],[ylabel,"x_n"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This shows that for a=3.83, the orbit converges to a period-3 orbit.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: title   start ]
+Unit 4
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: section start ]
+Generating random integers
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Computer packages do not generate true random numbers. Instead they produce
+pseudorandom numbers, which result from iteration of a chaotic dynamical
+system.
+
+Maxima can produce random numbers with both discrete and continuous
+distributions. You can learn about the options by typing ?? random.
+
+In Maxima, the command   random(n)   , where n is an integer, produces random
+numbers that are integers in the range 0,1,2,...,n-1. All of the n  possible
+outcomes have the same probability.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 3
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following command produces a random number that is either 0 or 1 with
+probability one-half every time it is invoked.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+random(2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Invoking the command repeatedly produces different random numbers.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 10 do print(random(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The 0s and 1s look fairly randomly distributed with roughly equal probability,
+as expected.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 4
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The variable m will be the sum of the number of times the random number is 1.
+Initialise m to zero.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+m:0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The variable n is the number of random numbers generated. Here we set it to
+1000, but higher numbers can be taken.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+n:1000;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now count the number of times 1 is generated in a list of n random trials. Then
+print m/n.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru n do m:m+random(2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+float(m/n);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Try using larger values of n, to check that the value of m/n converges to 0.5.
+For example, n=10^6 gave m/n=0.500025 (you might obtain a slightly 
+different result).
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Generating random numbers drawn from an interval
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+If x is a real number, then the Maxima command random(x) gives a pseudorandom
+real number between 0 and x, with a uniform probability distribution.
+
+For example, the following command gives a pseudorandom real number 
+between 0 and 10.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+random(10.0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that the argument 10.0 is input as a decimal number not an integer.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 18
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Part (a)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 10 do display(random(1.0));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Part (b)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+The transformation y=2x-1 transforms these numbers to random numbers that
+have a uniform probability density between -1 and +1. This loop produces 20 
+such random numbers:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru 20 do (y:2*random(1.0)-1, display(y));
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Simulating throwing a die
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+If n is an integer, then the Maxima command random(n) gives a pseudorandom
+integer between 0 and n, with a uniform probability distribution.
+
+Hence the numbers produced by throwing a die, drawn from the set [1,2,3,4,5,6]
+with equal probabilities, may be simulated by the command random(6)+1.  For
+example,
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+random(6)+1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that the number 6 is input as an integer not a decimal.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 23
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following code simulates calculating the mean value for n throws.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+n:10000;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Let s be the sum of the outcomes of each throw of the die.  Initialise this to
+0, then calculate the sum after n throws.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+s:0;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i:1 thru n do s:s+random(6)+1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now print the mean value s/n.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+float(s/n);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+As you increase n, you will find that s/n approaches 3.5.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: title   start ]
+Unit 5
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: section start ]
+The brachistochrone
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: subsect start ]
+Solution to Exercise 18(a)
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+To plot b against phi_b we proceed as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define b as in equation (32).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+b(phi):=(2*phi-sin(2*phi))/(1-cos(2*phi));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now plot b, restricting for 0 < phi < 3  and restricting the y-axis.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(b(phi),[phi,0,3],[y,0,15],[ylabel,"b"],[xlabel,"phi_b"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This graph is similar to Figure 18 in the unit.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Example of plotting a brachistochrone
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following code plots the brachistochrone for a given value of b. Run the
+code, then try Exercise 18(b).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+First define the parametric equations (31) for the brachistochrone as a function
+of phi and phi_b.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x(phi,phib):=(2*phi-sin(2*phi))/(1-cos(2*phib));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+y(phi,phib):=(1-cos(2*phi))/(1-cos(2*phib));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now define b as in equation (32).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+b(phi):=(2*phi-sin(2*phi))/(1-cos(2*phi));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The command find_root(f(x),x,a,b) will look for roots of f(x) for a < x < b.  So
+to solve equation (32) for phi_b when b=0.2, we input
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+phib1: find_root(b(phi)=0.2,phi,0.001,3.14159);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now create a parametric plot of the brachistochrone for this value of phi_b, and
+for 0<phi<phi_b.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+plt1:[parametric, x(t,phib1), y(t,phib1), [t,0,phib1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([plt1],[xlabel,"x"],[ylabel,"y"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that the y-axis here is upwards, whereas it is downwards in Figure 19 of
+Unit 5.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Now try exercise 18(b), by creating four plots of brachistochrones 
+(for b=0.2, %pi/2, 3 and 4) on the same graph.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 18(b)
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Use find_root(f(x),x,a,b)  to solve equation (32) for phi_b when b=0.2, %pi/2, 3
+and 4.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+phib1: find_root(b(phi)=0.2,phi,0.001,3.14159);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+phib2: find_root(b(phi)=%pi/2,phi,0.001,3.14159);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+phib3: find_root(b(phi)=3,phi,0.001,3.14159);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+phib4: find_root(b(phi)=4,phi,0.001,3.14159);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now create parametric plots of the brachistochrone for these values of phi_b,
+and for 0<phi<phi_b.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+plt1:[parametric, x(t,phib1), y(t,phib1), [t,0,phib1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+plt2:[parametric, x(t,phib2), y(t,phib2), [t,0,phib2]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+plt3:[parametric, x(t,phib3), y(t,phib3), [t,0,phib3]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+plt4:[parametric, x(t,phib4), y(t,phib4), [t,0,phib4]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([plt1,plt2,plt3,plt4],[xlabel,"x"],[ylabel,"y"],
+  [legend,"b=0.2","b=pi/2","b=3","b=4"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This plot is similar to that in Figure 19 of the unit, but with the y-axis
+reversed.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+The soap film
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: subsect start ]
+Solution to Exercise 22(a) and 22(b)
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Part (a)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From equation (36) y0*cosh(L/(2*y0))=1, so L=2*y0*acosh(1/y0). 
+We plot this function as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+L(y0):=2*y0*acosh(1/y0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(L(y0),[y0,0,1.1],[ylabel,"L"],[xlabel,"y0"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Figure 26 is obtained by swapping the x- and y-axes.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (b)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+The maximum value occurs when dL/d(y0)=0, which is when
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dL: diff(L(y0),y0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+y0max: find_root(dL=0,y0,0.4,0.8);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The maximum value of L is therefore
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Lmax: L(y0max);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Plotting stationary curves 
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Here we use Maxima to recreate Figure 27 of the unit, that is, 
+the dumbbell-like (yd(x)) and cylinder-like (yc(x)) solutions for L=1.  
+Run this code in Maxima, and then attempt Exercises 22(c) and 22(d).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+First create functions that find y0 as a function of L from y0*cosh(L/(2y0))=1.
+We know there are two solutions for each L.  Let yd0(L) find the solution for 
+0 < y0 < y0max.  Let yc0(L) find the solution for y0max < y0 < 1.
+
+(Note that the function cosh(L/(2y0)) becomes very large for small y0. So in
+practice we define yd0(L) to be the solution for 0.001 < y0 < y0max.)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+eq: y0*cosh(L/(2*y0))=1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+yd0(L):=find_root(eq,y0,0.001,y0max);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+yc0(L):=find_root(eq,y0,y0max,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Check that these functions give the values of yd0(1)~0.235 and yc0(1)~0.848 
+quoted in Figure 26.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+yd0(1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+yc0(1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The stationary curve is given by equation (36).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+y(x,y0):=y0*cosh(x/y0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now plot this for y0=yd0(1)  and c=yc0(1) to obtain a plot similar to Figure 27.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([y(x,yd0(1)),y(x,yc0(1))],[x,-1/2,1/2],[y,0,1.1],
+  [legend,"yd","yc"],[color,red,blue]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now attempt Exercise 22(c) and 22(d).
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 22(c) and 22(d)
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Part (c)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+From the solution to Exercise 21, the area of the soap film for the dumbbell-like
+and cylinder-like solutions is given by
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Sd(L):=%pi*yd0(L)^2*(sinh(L/yd0(L))+L/yd0(L));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Sc(L):=%pi*yc0(L)^2*(sinh(L/yc0(L))+L/yc0(L));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The area of the Goldschmidt solution is given by
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Sg(L):=2*%pi$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([Sd(L),Sc(L),Sg(L)],[L,0.02,Lmax-0.01],[color,red,blue,green],
+  [legend,"Dumbbell","Cylinder","Goldschmidt"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This is similar to Figure 29 of the unit. (Note that we avoid plotting the
+endpoints L=0 and L=Lmax here to avoid possible warnings about being unable to
+calculate yd0 and yc0 at these points.)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (d)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+The curve representing the area of the cylinder-like solution (Sc)  crosses that
+representing the area of the Goldschmidt solution (2%pi) when
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Lcross:  find_root(Sc(L)=2*%pi,L,0.9,1.2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+i.e. at L=1.0554 approximately, which is the value quoted in the unit.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: title   start ]
+Unit 7
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: section start ]
+The logistic map
+(Subsection 3.1)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+In this subsection and the next, orbits of the logistic map, x -> ax(1-x) are
+numerically generated and plotted using Maxima, as displayed in Figure 15. This
+involves using Maxima code first introduced in Unit 3, Section 6. This starts by
+defining a function in Maxima, called 'orbit(x0,a,N)', which calculates the
+orbit of x0 under the logistic map for a given value of 'a' and with N points.
+The result is given as a list of coordinates, (n,x_n), n=0,1,...,N. This
+corresponds to the pseudocode given in the box, of Subsection 3.1, titled
+"Computation of an orbit under the logistic map".
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(x0,a,N):=block( [x,xorbit],
+  x:x0, xorbit:[[0,x]],
+  for k thru N do (x:a*x*(1-x), xorbit:append(xorbit,[[k,x]])),xorbit )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 7
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The above Maxima function, orbit(x0,a,N), is used to generate the orbit with
+x0=0.2, a=2.4 and N=20.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb:orbit(0.2,2.4,20);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Figure 15
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+To plot Figure 15(a) (where a=2.4), we do the following.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb:orbit(0.2,2.4,20)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,orb]],[style,[linespoints,2,1]],
+  [xlabel,"n"],[ylabel,"x_n"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To plot Figure 15(b) (where a=2.8), we do the following.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb:orbit(0.2,2.8,30)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,orb]],[style,[linespoints,2,1]],
+  [xlabel,"n"],[ylabel,"x_n"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+You are encouraged to experiment with other values of 'a' and x0, keeping 1<a<3
+for the time being.
+
+Note that on some operating systems, the "linespoints" option does not produce
+any points on the graph.  In this case the following command can be used, where
+the points in orb are plotted twice, once as a line graph and once as a set of
+points: wxplot2d([[discrete,orb],[discrete,orb]],[style,[lines],[points,1]],
+[legend, false],[xlabel,"n"],[ylabel,"x_n"]); Likewise for the remaining plots
+in this unit.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Periodic orbits
+(Subsection 3.2)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The Maxima function, orbit(x0,a,N), given above, is used in this subsection to
+explore how the logistic map gives rise to periodic orbits as the parameter 'a'
+is varied with a>3. Examples are plotted in Figures 16 and 18.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Figure 16
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+To plot the period-2 orbit when a=3.1, we do the following.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb:orbit(0.2,3.1,40)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,orb]],[style,[linespoints,2,1]]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Figure 18
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+To plot the period-4 orbit when a=3.52, we do the following.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orb:orbit(0.2,3.52,40)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,orb]],[style,[linespoints,2,1]]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+You should experiment with other values of 'a'. In particular, as found in Unit
+3, there is a period-5 orbit when a=3.74 and a period-3 orbit when a=3.83.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Bifurcation diagrams
+(Subsection 3.4)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+In this subsection, Maxima is used to plot bifurcation diagrams for the logistic
+map, x -> ax(1-x), for various ranges of 'a'. This is needed for Exercise 11 and
+to plot the diagrams shown in Figures 22, 23 and 24.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 11 (Figure 22)
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following Maxima program will plot the bifurcation diagram shown in Figure
+22 as required by Exercise 11. To fully appreciate the rich complexity of the
+bifurcation diagram for the logistic map, it is desirable to have the number of
+'a' slices, 'N', to be as large as is practical, which will mean that a large
+number of iterates will be recorded and plotted. The most computationally
+efficient way of doing this is to record the iterates in an array rather than a
+list (see the MS327 Software Guide on the use of arrays). Although a list can be 
+used, the resulting program will run much more slowly.  In the following, the 
+iterates are recorded in an array called 'pts', which is then converted to a list 
+called 'pts1' for plotting.  The following code plots the bifurcation diagram 
+for 1<a<4, as required for Exercise 11, with x0=0.6 and N=500. If your computer 
+appears too slow, try reducing 'N', starting at, say, N=100 and working up. This 
+corresponds to the pseudocode given in the box, of Subsection 3.4, titled "Plotting 
+the bifurcation diagram for the logistic map".
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a1:1.0$ a2:4.0$ N:500$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following command sets up an array called 'pts' that will record all the
+iterates needed for plotting the bifurcation diagram.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts:make_array(flonum,200*N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru N do (
+  a: a1+i*(a2-a1)/N,
+  for j thru 100 do x:a*x*(1-x),
+  for k:0 thru 199 do (x:a*x*(1-x),pts[200*(i-1)+k]:[a,x])
+  );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+In order to plot the iterates, the array 'pts' is converted to a list (called
+'pts1') so that the plot2d command can be used (please be patient, the plot can
+take some time). This is done as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts1:makelist(pts[i-1],i,200*N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,pts1],[style,dots],[color,black]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Alternative solution to Exercise 11, using the 'draw' package
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The 'wxplot2d' command can be slow when plotting a very large number of discrete points. 
+Since we require 'N' (the number of 'a' slices) to be as large as is practical, the 
+bifurcation diagrams will indeed involve plotting a very large number of points (i.e. 200*N).
+It turns out that on many computers an alternative plotting command, 'wxdraw2d', can be 
+significantly faster than 'wxplot2d'. The 'wxdraw2d' command is part of Maxima's 'draw'
+package which has to be loaded separately into the Maxima session (using the 'load' command). 
+See the MS327 Software Guide for more details of 'wxdraw2d' and the 'draw' package. 
+Unlike 'wxplot2d', the 'wxdraw2d' command can plot arrays directly, without the need to convert 
+to a list first, and this is usually the most efficient way to use 'wxdraw2d'. 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that we have set N=1000 (rather than 500) since, with 'wxdraw2d', it should be possible
+to cope with larger N.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+a1:1.0$ a2:4.0$ N:1000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+In order to plot the points using 'wxdraw2d', it is convenient to record the iterates
+in a two-dimensional array (called 'pts') which is set up by the following command.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts:make_array(flonum,200*N,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru N do (
+  a: a1+i*(a2-a1)/N,
+  for j thru 100 do x:a*x*(1-x),
+  for k:0 thru 199 do (x:a*x*(1-x), pts[200*(i-1)+k,0]:a, pts[200*(i-1)+k,1]:x)
+  );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following command loads the Maxima 'draw' package into the session. 
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(xlabel="a", ylabel="x",
+        font="Arial", font_size=12,
+        point_type=dot,
+        color=black,
+        points(pts))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Figure 23
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+In order to examine the more complicated structures found for a>3, we repeat the
+previous program except with 3.44<a<4 and with red rectangles included so as to
+reproduce Figure 23.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a1:3.44$ a2:4.0$ N:500$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pts:make_array(flonum,200*N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru N do (
+  a: a1+i*(a2-a1)/N,
+  for j thru 100 do x:a*x*(1-x),
+  for k:0 thru 199 do (x:a*x*(1-x),pts[200*(i-1)+k]:[a,x])
+  );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pts1:makelist(pts[i-1],i,200*N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Rectangle(B,T):=[discrete,[B,[B[1],T[2]],T,[T[1],B[2]],B]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,pts1],Rectangle([3.84, 0.44],[3.8568, 0.555]),
+Rectangle([3.741, 0.473],[3.74476, 0.528])],
+[style,dots,lines,lines],[color,black,red,red],[legend,false]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Alternative approach to Figure 23, plotted using the 'draw' package
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+This follows similarly to the alternative approach of plotting Figure 22 using 'wxdraw'
+with 'a' restricted to 3.44<a<4.0. Again, note that we have set N=1000.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a1:3.44$ a2:4.0$ N:1000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pts:make_array(flonum,200*N,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru N do (
+  a: a1+i*(a2-a1)/N,
+  for j thru 100 do x:a*x*(1-x),
+  for k:0 thru 199 do (x:a*x*(1-x), pts[200*(i-1)+k,0]:a, pts[200*(i-1)+k,1]:x)
+  );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that the 'draw' package provides a 'graphics object' called 'rectangle', so there is
+no need to define separately the 'Rectangle' function as was done in the previous approach 
+using 'wxplot2d'.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(xlabel="a", ylabel="x",
+        font="Arial", font_size=12,
+        point_type=dot,
+        color=black,
+        points(pts),
+        color=red, transparent=true,
+        rectangle([3.84, 0.44],[3.8568, 0.555]),
+        rectangle([3.741, 0.473],[3.74476, 0.528]))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Figure 24
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following program magnifies the right-most red rectangle in Figure 23, which
+gives Figure 24(b).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a1:3.84$ a2:3.8568$ N:500$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pts:make_array(flonum,200*N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru N do (
+  a: a1+i*(a2-a1)/N,
+  for j thru 100 do x:a*x*(1-x),
+  for k:0 thru 199 do (x:a*x*(1-x),pts[200*(i-1)+k]:[a,x])
+  );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pts1:makelist(pts[i-1],i,200*N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+yr1:0.44$ yr2:0.555$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,pts1],[x,a1,a2],[y,yr1,yr2],[style,dots],[color,black]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To generate Figure 24(a), i.e. the magnification of the left-most rectangle in
+Figure 23, repeat the above program but with a1=3.741, a2=3.74476, 
+yr1=0.473 and yr2=0.528.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Alternative approach to Figure 24, plotted using the 'draw' package
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following program magnifies the left-most red rectangle in Figure 23, which
+gives Figure 24(a), with the points plotted using 'wxdraw2d' and with N=1000.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a1:3.741$ a2:3.74476$ N:1000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pts:make_array(flonum,200*N,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru N do (
+  a: a1+i*(a2-a1)/N,
+  for j thru 100 do x:a*x*(1-x),
+  for k:0 thru 199 do (x:a*x*(1-x), pts[200*(i-1)+k,0]:a, pts[200*(i-1)+k,1]:x)
+  );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(xlabel="a", ylabel="x",
+        font="Arial", font_size=12,
+        xrange=[a1,a2], yrange=[0.473,0.528],
+        point_type=dot,
+        color=black,
+        points(pts))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To generate Figure 24(b), i.e. the magnification of the right-most rectangle in
+Figure 23, repeat the above program but with a1=3.84, a2=3.8568, and with
+yrange=[0.44,0.555].
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+The Henon map
+(Subsection 4.1)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+This subsection is concerned with studying the long-time behaviour of the two-
+dimensional map given by (x,y)->(a-x^2+by,x), known as the Henon map.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 12
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following program uses a list to record the iterates, which is sufficient to
+answer part (a) of this exercise where N=20000 and therefore not too high. Note
+that we have a=1.4, b=0.3 and (x0,y0)=(0,0). This corresponds to the pseudocode
+given in the box, of Subsection 4.1, titled "Plotting the Henon attractor".
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:20000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.0$ y:0.0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a:1.4$ b:0.3$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Henon(x,y):= [a - x^2 + b*y, x];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru 200 do [x,y]:Henon(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+attractor: makelist(0,i,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do ([x,y]:Henon(x,y),attractor[n]: [x,y]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,attractor],[style,dots],[color,black]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following more complicated but much more efficient program uses an array to
+record iterates. This gives a program that runs much faster for large 'N'. This
+is important when magnifying small portions of the attractor where larger values
+of 'N' are needed in order to generate a sufficiently high density of points, as
+required for answering parts (b) and (c) of this exercise.
+
+Here we set 'N' to be 100000. If you find that your code runs too slowly, you
+may need to reduce this value.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:100000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.0$ y:0.0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a:1.4$ b:0.3$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Henon(x,y):=[a - x^2 + b*y, x];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru 200 do [x,y]:Henon(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+attractor:make_array(flonum,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n:0 thru N-1 do ([x,y]:Henon(x,y), attractor[n]:[x,y]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We need to convert the array to lists in order to plot their values using the
+plot2d command.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts: makelist(attractor[n],n,0,N-1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To answer part (a) we make the following plot. (Please be patient, this command
+can take some time).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,pts],[style,dots],[color,black]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To answer part (b) we set the plot ranges as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+xr1:1.0$ xr2:1.2$ yr1:0.62$ yr2:0.82$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,pts],[x,xr1,xr2],[y,yr1,yr2],[style,dots],[color,black]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To answer part (c) we set the plot ranges as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+xr1:1.084$ xr2:1.11$ yr1:0.744$ yr2:0.77$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,pts],[x,xr1,xr2],[y,yr1,yr2],[style,dots],[color,black]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that in the text, a much larger value of 'N' was used to generate Figure 27.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Alternative solution to Exercise 12, using the 'draw' package:
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Recall that the 'wxplot2d' command can be slow when plotting a very large number of discrete points. 
+We require 'N' (the number of points plotted) to be as large as is practical in order investigate
+the complex structure of the strange attractor; this is particularly important for answering 
+parts (b) and (c) where a high density of points is required. Again, as found when plotting bifuraction 
+diagrams in Subsection 3, it turns out that on many computers an alternative plotting command, 'wxdraw2d', 
+can be significantly faster than 'wxplot2d'. Recall that the 'wxdraw2d' command is part of Maxima's 'draw'
+package and that unlike 'wxplot2d', the 'wxdraw2d' command can plot arrays directly, without the need to 
+convert to a list first, and this is usually the most efficient way to use 'wxdraw2d'.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:1000000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that we have set N=1,000,000 (rather than 100,000 as before) since, with 'wxdraw2d', it should be possible
+to cope with larger N. However, if you find that your code runs too slowly, you may need to reduce this value.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.0$ y:0.0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a:1.4$ b:0.3$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Henon(x,y):=[a - x^2 + b*y, x];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru 200 do [x,y]:Henon(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We record the iterates in a two-dimensional array called 'attractor' which is set up using the following command.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+attractor:make_array(flonum,N,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n:0 thru N-1 do ([x,y]:Henon(x,y), attractor[n,0]:x, attractor[n,1]:y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following command sets up the plot range needed for part (a) of the exercise.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+xr1:-2.0$ xr2:2.0$ yr1:-2.0$ yr2:2.0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Recall that in order to use the command 'wxdraw2d' we need to load the 'draw' package as follows:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(xlabel="x", ylabel="y",
+        font="Arial", font_size=8,
+        point_type=dot,
+        xrange=[xr1,xr2], yrange=[yr1,yr2],
+        color=black,
+        points(attractor))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To answer part (b), we need to change the plot range as follows:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+xr1:1.0$ xr2:1.2$ yr1:0.62$ yr2:0.82$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(xlabel="x", ylabel="y",
+        font="Arial", font_size=8,
+        point_type=dot,
+        xrange=[xr1,xr2], yrange=[yr1,yr2],
+        color=black,
+        points(attractor))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+To answer part (c), we need to change the plot range as follows:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+xr1:1.084$ xr2:1.11$ yr1:0.744$ yr2:0.77$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(xlabel="x", ylabel="y",
+        font="Arial", font_size=8,
+        point_type=dot,
+        xrange=[xr1,xr2], yrange=[yr1,yr2],
+        color=black,
+        points(attractor))$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 13
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+This exercise requires us to examine points of orbits under the Henon map for
+sufficiently long times. Thus, it is helpful to define the following function in
+Maxima, called 'orbit(x0,y0,a,b,N)', which computes the orbit of (x0,y0) under
+the Henon map with parameter values 'a' and 'b' and with N points.  The result
+is given as a list of coordinates, (x_n,y_n), n=1,...,N. The algorithm is based
+on the first (simpler) program given in the solution to Exercise 12, which was
+based on recording iterates using a list.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that we use the 'block' command with 'x', 'y' and 'xyorbit' being local variables 
+(see Software Guide).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(x0,y0,a,b,N):=block( [x,y,xyorbit],
+   Henon(x,y):= [a - x^2 + b*y, x],
+   [x,y]:[x0,y0],
+   xyorbit: makelist(0,i,N),
+   for n thru N do ([x,y]:Henon(x,y),xyorbit[n]: [x,y]),
+   xyorbit )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Part (a): (x0,y0)=(0,0), a=1.0, b=-0.3.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(0,0,1.0,-0.3,200);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From the output, you can see that the orbit converges to the fixed point at
+x=y=0.542686044.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (b): (x0,y0)=(0,0), a=1.28, b=-0.3.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(0,0,1.28,-0.3,500);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From the output, you can see that the orbit converges to the period-2 orbit
+{(0.761803,0.538196), (0.538196,0.761803)}.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (c): (x0,y0)=(0,0), a=1.5, b=-0.4.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(0,0,1.5,-0.4,18);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From the output, you can see that the orbit escapes to infinity.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (d): (x0,y0)=(0.5,0), a=1.28, b=-0.3.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(0.5,0,1.28,-0.3,500);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From the output, you can see that the orbit converges to the period-2 orbit
+{(0.761803,0.538196), (0.538196,0.761803)}, the same as that given in part (b).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (e): (x0,y0)=(2.4,2.4), a=1.28, b=-0.3.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(2.4,2.4,1.28,-0.3,9);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From the output, you can see that the orbit escapes to infinity.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+The Henon area-preserving map
+(Subsection 4.2)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+This subsection is concerned with plotting orbits of the two-dimensional map
+given by  
+(x,y) -> (x*cos(alpha)-(y-x^2)*sin(alpha) , x*sin(alpha)+(y-x^2)*cos(alpha)),
+known as the Henon area-preserving map. 
+Maxima code will be used to plot Figures 28, 29 and 30 and answer Exercise 14.
+Since area-preserving maps do not have attractors, the long-time behaviour 
+of the orbits depends strongly on their initial values. 
+The following program plots the orbit of the point (0.0,0.3)
+under the Henon area-preserving map for cos(alpha)=0.8. It corresponds to the
+pseudocode given in the box, of Subsection 4.2, titled "Plotting orbits of the
+Henon area-preserving map".
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:2000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+alpha:acos(0.8)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0.0$ y:0.3$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Henon(x,y):=[x*cos(alpha) - (y-x^2)*sin(alpha), x*sin(alpha) + (y-x^2)*cos(alpha)];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit: makelist(0,i,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do ([x,y]:Henon(x,y),orbit[n]: [x,y]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,orbit],[style,dots],[color,black]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Figure 28
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Figure 28 is obtained by repeatedly applying the above code over a range of
+initial values, (x0,y0). This can mostly be achieved by placing it within a
+loop, which loops through a set of initial values, as shown below.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:2000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Henon(x,y):=[x*cos(alpha) - (y-x^2)*sin(alpha), x*sin(alpha) + (y-x^2)*cos(alpha)];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+alpha:acos(0.8)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orbits:[]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x0:0.0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now compute a set of orbits by looping through a set of initial values.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for y0:0.1 thru 0.35 step 0.05 do (
+  orbit: makelist(0,i,N),
+  [x,y]: [x0,y0],
+  for n thru N do ([x,y]:Henon(x,y),orbit[n]: [x,y]),
+  orbits:append(orbits,orbit)
+       );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+[x,y]:[0.0,0.39]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do ([x,y]:Henon(x,y),orbits:append(orbits,[[x,y]]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We now compute an orbit that passes close to the unstable fixed point at
+(2/3,2/9). This will be shown in red in the resulting graph.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[x,y]:[0.767,0.42]$ orbit1:[[x,y]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru 25 do ([x,y]:Henon(x,y),orbit1:append(orbit1,[[x,y]]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The two fixed points are given as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+fixedpts:[[0,0],[2/3,2/9]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Finally, we plot all the orbits on one graph, as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([tan(alpha/2)*x,[discrete,orbits],[discrete,orbit1],[discrete,fixedpts]],
+  [x,-0.6,1],[style,[dots],[dots],[points,1],[points,1]],[point_type,bullet,bullet],
+   [color,green,black,red,black],[legend,false]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Figure 29
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Similar methods are now employed to produce Figure 29 but this time for
+cos(alpha)=0.24.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:2000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Henon(x,y):=[x*cos(alpha) - (y-x^2)*sin(alpha), x*sin(alpha) + (y-x^2)*cos(alpha)];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+alpha:acos(0.24)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orbits:[]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x0:0.0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for y0:0.2 thru 0.725 step 0.025 do (
+  orbit: makelist(0,i,N),
+  [x,y]: [x0,y0],
+  for n thru N do ([x,y]:Henon(x,y),orbit[n]: [x,y]),
+  orbits:append(orbits,orbit)
+       );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The next two lines compute an orbit that will turn out to be chaotic. It will
+be plotted in red in the resulting graph.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[x,y]:[0.29,0.52]$ orbit1:[[x,y]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do ([x,y]:Henon(x,y),orbit1:append(orbit1,[[x,y]]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The next two lines determine the outermost orbit to be plotted, which will
+consist of a halo of points that eventually meanders off to infinity. For this
+reason, 'N' cannot be taken too large.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[x,y]:[0.0,0.725]$ N:1000$ orbit2:[[x,y]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do ([x,y]:Henon(x,y),orbit2:append(orbit2,[[x,y]]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We finally plot all the orbits in the same graph.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rectangle(B,T):=[discrete,[B,[B[1],T[2]],T,[T[1],B[2]],B]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([tan(alpha/2)*x,[discrete,orbits],[discrete,orbit1],
+    [discrete,orbit2],rectangle([0.525, 0.1],[0.625, 0.2])],
+  [x,-0.8,1],
+  [style,dots,dots,dots,dots,lines],[color,green,black,red,black,green],
+  [legend,false]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The green rectangle will be magnified and explored further in Figure 30.  
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Figure 30
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Here, the region inside the green rectangle of the previous figure is magnified
+and explored further by plotting some more orbits that concentrate within it.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+N:5000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Henon(x,y):=[x*cos(alpha) - (y-x^2)*sin(alpha), x*sin(alpha) + (y-x^2)*cos(alpha)];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+alpha:acos(0.24)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orbits:[]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for x0:0.525 thru 0.650 step 0.025 do (
+    for y0:0.1 thru 0.20 step 0.025 do (
+       [x,y]:[x0,y0],
+       pts: makelist(0,i,N),
+       for n thru N do ([x,y]:Henon(x,y),pts[n]: [x,y]),
+       orbits:append(orbits,pts)
+       )
+     );
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+[x,y]:[0.29,0.52]$ orbit1:[[x,y]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit1: makelist(0,i,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for n thru N do ([x,y]:Henon(x,y),orbit1[n]:[x,y]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Please be patient, the next command takes a little time.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,orbits],[discrete,orbit1]],[x,0.525,0.625],[y,0.1,0.2],
+  [style,dots],[color,black],[legend,false]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 14
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+This exercise requires us to plot orbits under the Henon area-preserving map for
+various values of cos(alpha) and different initial points (x0,y0).  Thus, it is
+helpful to define the following function in Maxima, called
+'plotorbit(x0,y0,calpha,N)', which computes the orbit of (x0,y0) under the Henon
+area-preserving map with cos(alpha)=calpha and with N points. Note the use of 'block'
+with 'alpha', 'x', 'y' and 'orbit' being local variables.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+plotorbit(x0,y0,calpha,N):= block( [alpha,x,y,orbit],
+   alpha:acos(calpha),
+   Henon(x,y):=[x*cos(alpha) - (y - x^2)*sin(alpha), x*sin(alpha) + (y - x^2)*cos(alpha)],
+   [x,y]:[x0,y0],
+   orbit: makelist(0,i,N),
+   for n thru N do ([x,y]:Henon(x,y),orbit[n]: [x,y]),
+   wxplot2d([discrete,orbit],[style,dots],[color,black]) )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Part (a): cos(alpha)=0.24, (x0,y0)=(0.0,0.2).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+plotorbit(0.0,0.2,0.24,2000);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Thus, the orbit consists of an approximate circle centred at (0,0).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (b): cos(alpha)=0.24, (x0,y0)=(0.0,0.5).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+plotorbit(0.0,0.5,0.24,2000);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Thus, the orbit consists of a chain of five islands.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (c): cos(alpha)=0.24, (x0,y0)=(0.29,0.52).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+plotorbit(0.29,0.52,0.24,2000);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The orbit is chaotic and similar to that shown in red in Figure 29.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Part (d): cos(alpha)=0.40, (x0,y0)=(0.0,0.55).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+plotorbit(0.0,0.55,0.40,2000);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Thus, the orbit consists of a chain of six islands.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: title   start ]
+Unit 8
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: section start ]
+Lyapunov exponents for one-dimensional maps
+(Subsection 1.1)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+In order to motivate the derivation of Lyapunov exponents for one-dimensional
+maps, Subsection 1.1 starts by comparing two initially nearby orbits under the
+logistic map, x->ax(1-x). This merely repeats almost exactly what was done
+within Maxima in Subsection 6.3 of Unit 3 (except that a slightly different
+value of 'a' is being used and that different initial points are being
+considered). The value of 'a' here is set to 4.0, where chaos is expected to
+occur, and one orbit starts at x0=0.6 (which we call 'orb1' in the Maxima code)
+and the other orbit starts at x0=0.6+10^(-8)=0.60000001 (which we call 'orb2').
+Figures 1 and 2 are then generated as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Figure 1
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+As with Units 3 and 7, we start by defining a function in Maxima, called
+'orbit(x0,a,N)' which calculates the orbit of x0 under the logistic map for a
+given value of 'a' and with N points. The result is given as a list of
+coordinates, (n,x_n), n=0,1,...,N.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(x0,a,N):= block( [x,xorbit],
+  x:x0, xorbit:[[0,x]],
+  for k thru N do (x:a*x*(1-x), xorbit:append(xorbit,[[k,x]])),xorbit)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This is then used to calculate the orbit of x0=0.6 (with a=4.0 and N=60), which
+we call 'orb1', and the orbit of x0=0.60000001 (for the same values of 'a' and
+N), which we call 'orb2'. These orbits are then plotted on the same graph with
+orb1 in blue and orb2 in red.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+a: 4.0;
+N: 60;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orb1:orbit(0.6,a,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orb2:orbit(0.60000001,a,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,orb1],[discrete,orb2]],
+  [style,[linespoints,1,1,1,14],[linespoints,1,1,2,14]],
+  [xlabel,"n"],[ylabel,"x_n"],[legend, false]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that orb2 (red) appears to completely overwrite orb1 (blue) for the first
+20 or so iterates.  This is because, viewed this way, the two orbits are barely
+distinguishable until about n=20.  Beyond this point, they then pursue
+completely different trajectories, showing extreme sensitivity to initial
+conditions -- a characteristic property of chaotic orbits.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Figure 2
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+In order to investigate further how the two orbits illustrated in Figure 1
+deviate from one another, we plot the distance between them against the iterate
+number 'n'. This is done as follows, which should produce Figure 2(a).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+distorbs: makelist([k-1,abs(orb1[k][2]-orb2[k][2])],k,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,distorbs],[style,[linespoints,1,2]],
+   [xlabel,"n"],[ylabel,"|dx_n|"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+If your operating system is such that the above plot produces lines but not
+points (whereas it should give both), then try the following command instead.
+wxplot2d([[discrete,distorbs],[discrete,distorbs]],[style,[lines],[points,1]],
+[xlabel,"n"],[ylabel,"|dx_n|"],[legend,false]);
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+In order to show that the two orbits initially separate exponentially fast with
+'n', we plot the logarithm of the distance between the orbits against 'n'. This
+is done as follows and should produce Figure 2(b).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+logdistorbs: makelist([k-1,log(distorbs[k][2])],k,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,logdistorbs],[style,[linespoints,1,2]],
+  [xlabel,"n"],[ylabel,"ln|dx_n|"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Again, if your operating system is such that the above plot produces lines but
+not points, then try the following command instead.
+wxplot2d([[discrete,logdistorbs],[discrete,logdistorbs]],
+[style,[lines],[points,1]],[xlabel,"n"],[ylabel,"ln|dx_n|"],[legend,false]);
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+The approximate linear variation in the last figure for 'n' up to about 25
+shows that the two orbits initially separate in a way that is approximately
+exponential.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Chaotic orbits
+(Subsection 1.2)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+In this section we use Maxima to implement the formula for the Lyapunov 
+exponent of one-dimensional maps (given in the highlight box containing 
+equation (6) in Subsection 1.1) as applied to the logistic map, x->ax(1-x).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 2 (Figures 4 and 5)
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We start by defining a function in Maxima, which we call 'lyap(a,x0,N)', which
+essentially performs the sum given in equation (9) except that the infinite 
+limit is approximated by a sum with 'N' terms (therefore 'N' needs to be 
+sufficiently large). The result is a numerical estimate of the Lyapunov 
+exponent h(x0) of the orbit of x0 under the logistic map with parameter 'a'.
+Note the use of 'block' with 'h' and 'x' being local variables.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lyap(a,x0,N):= block( [h,x],
+       h:0, x:x0,
+       for j thru 100 do x:a*x*(1-x),
+       for k thru N do (x:a*x*(1-x),h:h+log(abs(1-2*x))),
+       log(abs(a))+h/N
+       )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that since the infinite sum is dominated by the attracting (or long-time)
+points of the orbit, we include only those points in the finite sum that have
+converged sufficiently close to the attractor. This is done by iterating out the
+earlier points (so-called 'transients') in the 'j' loop so they do not
+contribute to the 'k' loop and therefore to 'h'.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Next, we define another function in Maxima,  'listlyap(a1,a2,x0,M,N)', which
+calculates a list of Lyapunov exponents, h(x0), for the logistic map as the
+parameter 'a' varies over a1<a<a2. It does this by dividing the 'a' interval,
+[a1,a2], into 'M' points. At each of these points, h(x0) is numerically
+determined using the previously defined Maxima function 'lyap(a,x0,N)'. The
+following Maxima code 'listlyap(a1,a2,x0,M,N)', together with the above
+definition of 'lyap(a,x0,N)', corresponds to the commands 1 to 5 of the
+pseudocode given in the box, of Subsection 1.2, titled "Plotting the Lyapunov
+exponent for the logistic map against parameter a".
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+listlyap(a1,a2,x0,M,N):= block( [da,pts,a],
+    da:(a2-a1)/M, 
+    pts: makelist(0,i,M+1),
+    for i thru M+1 do (
+       a: a1+(i-1)*da,
+       pts[i]: [a,lyap(a,x0,N)]
+       ),
+    pts
+    )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Figure 4 is then obtained from the following commands.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts1:listlyap(1.0,4.0,0.4,1000,200)$
+wxplot2d([discrete,pts1],[xlabel,"a"],[ylabel,"h"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Although not part of Exercise 2, Figure 5, which shows in more detail h(x0) for
+3.449<a<4, is obtained as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts2:listlyap(1+sqrt(6.0),4.0,0.4,1000,200)$
+wxplot2d([discrete,pts2],[xlabel,"a"],[ylabel,"h"]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Figure 6
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Here, we compare the logarithm of the growing separation of two initially nearby
+orbits, under the logistic map for a=4 (where orbits are chaotic), with that
+predicted by the corresponding Lyapunov exponent, h(x0).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We start by defining the Maxima functions, 'orbit(x0,a,N)' and 'lyap(a,x0,N)',
+as used previously:
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+orbit(x0,a,N):= block( [x,xorbit], 
+  x:x0, xorbit:[[0,x]],
+  for k thru N do (x:a*x*(1-x), xorbit:append(xorbit,[[k,x]])),xorbit)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lyap(a,x0,N):= block( [h,x], 
+       h:0, x:x0,
+       for j thru 100 do x:a*x*(1-x),
+       for k thru N do (x:a*x*(1-x),h:h+log(abs(1-2*x))),
+       log(abs(a))+h/N
+       )$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+A numerical estimate of h(x0) for x0=0.6 and a=4.0 is given as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+a:4.0$ x0:0.6$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+h:lyap(a,x0,100000);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+It turns out that for a=4, h(x0)=ln(2). This is an exact result that is
+possible to prove (although it is not obvious at this stage). To check this,
+note the following.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+log(2.0);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This agrees with the numerical estimate of h(x0) given above to 6 significant
+figures, the error being due to the finite size of 'N' (increasing 'N' would
+give a more accurate estimate for h(x0)).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+We now use 'orbit(x0,a,N)' to generate two orbits starting very close to one
+another. Both will have a=4.0 and N=60 but one will be an orbit of x0=0.6,
+called 'orb1', and the other an orbit of x0=0.6+delta0 where delta0=10^(-14),
+called 'orb2'. Note that 'delta0' is much smaller than the corresponding value
+used previously for Figures 1 and 2 (which was 10^(-8)).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+delta0:1e-14$ N:60$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orb1:orbit(x0,a,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orb2:orbit(x0+delta0,a,N)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following code determines the logarithm of the distance between the 
+two orbits for n=0,1,...,N and gives the result as a list called 'pts' which 
+consists of the coordinates (n, ln(distance at n)), n=0,1,...,N.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts: makelist([k-1,log(abs(orb1[k][2]-orb2[k][2]))],k,N+1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Finally, the list 'pts' is plotted (in blue) on the same graph as the line
+'ln(delta0) + h*n' (in red) where 'h' is h(x0) as calculated above using
+'lyap(a,x0,N)'. The red line corresponds to the distance growing as del0
+exp(hn).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,pts],log(delta0)+h*x],[x,0,60],[y,-35,5],
+  [style,[linespoints,1,2],[lines]],[xlabel,"n"],[legend,false]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that the red line provides a good linear fit to the blue points for 'n' up
+to about 45.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Lyapunov exponents in two dimensions
+(Subsection 1.5)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Here we provide the solution to Exercise 9, which asks for numerical estimates of
+the Lyapunov exponents, h1 and h2, of the Henon map, (x,y)->(a-x^2+by,x), for
+parameter values a=1.4 and b=0.3.  We give two versions of the solution. The
+first one uses the default floating-point precision, which is sufficient to
+compute h1 and h2 correct to 2 decimal places provided that the number of
+iterations is large enough. This will provide an adequate solution to this exercise.
+However, we include a second version of the program to show how to obtain more
+accurate estimates of h1 and h2, which turn out to be correct to 3 decimal
+places. This program is essentially the same as the first, the only difference
+being that it uses Maxima's 'bigfloat' numbers and sets a higher value to
+the floating-point precision.  The programs correspond to the pseudocode given
+in the box, of Subsection 1.5, titled "Computing the Lyapunov exponents for the
+Henon map". More details of how the algorithm works are provided by the blue
+(study notes) box immediately preceding the pseudocode box in Subsection 1.5.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 9
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+n:10000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a:1.4$ b:0.3$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0$ y:0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v1:matrix([1],[0])$ v2:matrix([0],[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+J:matrix([0,b],[1,0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+S1:0$ S2:0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following loop implements item 7 of the pseudocode box in Subsection 1.5,
+with one extra line of code "if mod(j,500)=0 then print(h1,", ",h2)", which ensures
+that only every 500th value of the loop is printed. This reduces output and 
+increases speed. (Note that mod(j,500)=0 only if j is a multiple of 500).
+
+Regarding the calculation of the Lyapunov exponents for the Henon map,
+note that in this case only the top-left element, J[1][1], of the
+Jacobian matrix needs to be updated at each iteration. This is specific to the
+Henon map, whose Jacobian matrix depends on the coordinates, (x,y), only
+through the top-left element. For other maps, it may be necessary to update the
+whole of the Jacobian matrix at each iteration within the loop.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for j thru n do (
+       [x,y]:[a - x^2 + b*y,x],
+       J[1][1]:-2*x,
+       v1:J.v1, v2:J.v2,
+       p1:v1.v1, p2:v2.v1,
+       v2:v2 - (p2/p1)*v1,
+       d1:sqrt(p1), d2:sqrt(v2.v2),
+       S1:S1 + log(d1), S2:S2 + log(d2),
+       h1:S1/j, h2:S2/j,
+       if mod(j,500)=0 then print(h1,", ",h2),
+       v1:v1/d1, v2:v2/d2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The printed sequence of numbers indicates that the approximations to h1 and h2
+eventually start to converge.  We take the last values computed as our final
+numerical estimates for h1 and h2.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+h1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We expect h1=0.42 to 2 decimal places which is not quite achieved with n=10000.
+However, it can be achieved by increasing 'n' to, say, n=20000.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+h2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We expect h2=-1.62 to 2 decimal places, which is achieved with n=10000.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 9 
+(higher floating-point precision)
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The previous version of the solution to this exercise uses the default floating-
+point precision. Here, we repeat the solution but with a higher floating-point
+precision so as to obtain more accurate numerical estimates of h1 and h2. 
+It uses Maxima's 'bigfloat' numbers.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following command, sets the floating-point precision (i.e. number of
+significant digits) used by Maxima's 'bigfloat' numbers. Note that the default value 
+of 'fpprec' is 16.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprec:20$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now proceed as before.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+n:10000$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a:1.4$ b:0.3$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x:0$ y:0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v1:matrix([1],[0])$ v2:matrix([0],[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+J:matrix([0,b],[1,0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+S1:0$ S2:0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that in the following loop, the 'bfloat' function is used to ensure that
+computations are carried out with the required number of significant digits as
+specified by the 'fpprec' variable. The 'bfloat' function converts all
+numbers (and functions of numbers) inside its argument into 'bigfloat' numbers.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for j thru n do (
+       [x,y]:[bfloat(a - x^2 + b*y),bfloat(x)],
+       J[1][1]:bfloat(-2*x),
+       v1:J.v1, v2:J.v2,
+       p1:v1.v1, p2:v2.v1, 
+       v2:v2 - (p2/p1)*v1,
+       d1:bfloat(sqrt(p1)), d2:bfloat(sqrt(v2.v2)),
+       S1:bfloat(S1 + log(d1)), S2:bfloat(S2 + log(d2)),
+       h1:bfloat(S1/j), h2:bfloat(S2/j),
+       if mod(j,500)=0 then print(h1,", ",h2),
+       v1:v1/d1, v2:v2/d2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The above data show reasonable convergence for values of h1 and h2. 
+We take the last values as our final estimates.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+h1;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This gives h1=0.419 to 3 decimal places.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+h2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+This gives h2=-1.623 to 3 decimal places.
+
+Note that these final values of h1 and h2 are believed to be correct to 3 decimal places.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Numerical determination of the dimension
+(Subsection 3.3)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Here, we show how Maxima can be used to determine the box-counting dimension,
+'D', for the Henon attractor, i.e. the strange attractor for the Henon map,
+(x,y)->(a-x^2+by,x). In this case, we take, as the Henon map parameters, a=1.4
+and b=0.3. We start by giving the solution to Exercise 15, which prints out a
+table of the values of 'N(epsilon)' (the number of boxes in the epsilon-
+covering set) against epsilon. This is followed by showing how a least-squares
+fit method can be used to extract 'D' from this table of data, although this
+last part is not asked for in Exercise 15.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Solution to Exercise 15
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+The following program corresponds to the pseudocode given in the box, of
+Subsection 3.3, titled "Computing the box-counting dimension of the Henon
+attractor".
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+n:100000$
+a: 1.4$
+b: 0.3$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Henon(x,y):= [a-x^2+b*y,x]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+x: 0$
+y: 0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We now start to generate the attractor. The following 'i' loop iterates out the
+first 200 points of the orbit (i.e. discards the 'transients'), so as to ensure
+that subsequent iterates have converged to points sufficiently close to the
+attracting set.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru 200 do [x,y]:Henon(x,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following 'j' loop generates points on the attractor, (x_j,y_j),
+j=0,1,2,...,n-1, and stores them in an array called 'attractor' (recall that it
+is computationally more efficient in terms of computer run time to use arrays
+rather than lists for recording data for these types of calculation).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+attractor:make_array(flonum,n)$
+for j:0 thru n-1 do ([x,y]:Henon(x,y), attractor[j]:[x,y]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We now create a list of points on the attractor, so that we can use operations
+on lists. Creating this list directly is much slower than using array attractor.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts: makelist(attractor[j-1],j,n)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now define a function that counts the number of boxes of size epsilon covered by
+the attractor. This divides the list pts by epsilon to give coordinates of points
+in the attractor relative to the box size (or, in other words, the coordinates are 
+given in units of the box size). For example, [2.5, 3.25] would denote a point in 
+the box with bottom-left corner at position [2,3] (in units of epsilon), that was 
+half way across in the horizontal direction and a quarter of the way up. Then we 
+apply the floor() function which rounds down to the nearest integer, so that a point 
+with coordinates [2.5,3.25] would become [2,3]. This will give a list of all the 
+boxes of size epsilon covered by the attractor. Now we use the unique() function to
+remove the repetition so that each box is listed only once. The number of boxes
+covered by the attractor is the length of this list.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+N(epsilon):= length(unique(floor(pts/epsilon)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now create a list epsilons that contains the lengths of boxes we are
+investigating.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+m: 7$
+epsilon0: 0.5$
+epsilons: makelist(epsilon0^k,k,m);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now create a list that gives the number of boxes corresponding to each epsilon.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Ns: makelist(N(epsilon),epsilon,epsilons);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now print out the results.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for k thru m do print(epsilons[k],", ",Ns[k]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Note that your machine may give slightly different values for N(epsilon) due to
+machine-dependent rounding errors in the floating-point arithmetic used in the
+calculation of the Henon attractor etc.
+   [wxMaxima: comment end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Least-squares fit determination of the 
+box-counting dimension
+   [wxMaxima: subsect end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: comment start ]
+Finally, we use the results of Exercise 15 to determine the box-counting
+dimension by performing a least-squares fit estimate of the straight line
+passing through the points obtained by plotting 'ln N(epsilon)' against
+'ln(1/epsilon)'. The slope of this straight line will be our estimate of the
+box-counting dimension, 'D'. Start by creating a list of points
+[ln(1/epsilon),ln N(epsilon)] and plotting them.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+pts: makelist([-log(epsilons[k]),log(1.0*Ns[k])],k,m)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,pts],[style,points],
+  [xlabel,"ln(1/epsilon)"],[ylabel,"ln N(epsilon)"]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+From this plot, you can see that it should be possible to obtain a reasonably
+good straight-line fit through the data. To do this using the least-squares fit
+method, we need to load Maxima's least-squares fit package (called 'lsquares').
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+load(lsquares)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The least squares package requires its data to be stored in a matrix, so we
+convert the list of points into a matrix.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+data: apply(matrix,pts);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The following command provides the least-squares fit of the linear equation
+y=Dx+C through the set of points contained in 'data'. It returns estimates of
+'D' and 'C'. Note that, here, 'x' and 'y' now refer to the points in 'data',
+i.e. 'ln(1/epsilon)' for 'x' and 'ln N(epsilon)' for 'y'. They no longer refer
+to points in the attractor (which is why the 'kill(x,y)' command was used two 
+steps ealier). Note the ',numer' at the end of the line to force
+Maxima to output floating-point numerical approximations rather than working
+with fractions.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+LSest:lsquares_estimates(data,[x,y],y=D*x+C,[D,C]),numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Thus, an estimate of the box-counting dimension, i.e. the slope of the linear
+fit, is given by D=1.23 to 2 decimal places. In order to see how well the linear
+fit passes through the data, we plot the data points and the least-squares fit
+line, y=Dx+C, on the same graph as follows. The ',LSest' at the end of the line
+substitutes the calculated values of D and C into the equation y=D*x+C. This
+will give Figure 24 in the text.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,pts],D*x+C],[x,0.5,5],[y,3,9],[style,points,lines],
+ [xlabel,"ln(1/epsilon)"],[ylabel,"ln N(epsilon)"],[legend,false]),LSest;
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: title   start ]
+Unit 11
+   [wxMaxima: title   end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: section start ]
+Plotting eigenfunctions for diffusion on a circular region (Exercise 15)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We plot the nth eigenfunctions V_{mn}(r,theta) where n is defined below and
+m=1,2,3,4.  Initially we look at the case n=3, which are the figures printed in
+the unit. To look at other examples, change the line below and then execute the
+commands again.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+n: 3;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The Maxima command for the Bessel function J_n is bessel_j, and we can plot the
+function as follows.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(bessel_j(n,x),[x,0,20]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The eigenvalues of the eigenfunction are related to the zeros of the derivative
+of this function, that is to the position of the maxima and minima as there are
+no points of inflection. We now define djn to be the derivative of J_n.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+djn(x):= ''(diff(bessel_j(n,x),x));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The result shows that Maxima has been able to give an explicit formula for the
+derivative in  terms of other Bessel functions. This is analogous to the
+derivative of sinusoidal functions  being other sinusoidal functions.  This is
+the advantage of transforming the differential equation  into Bessel's equation
+-- Maxima has been able to apply known results about Bessel functions.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Now we use a loop to search for the roots of the derivative.  The method used is
+called a grid search, which evaluates the function at regular intervals  (here
+we use an interval of length h=0.1) and looks for intervals  where the function
+value  changes sign. When it finds such an interval it uses the bisection
+algorithm  (the Maxima command find_root) to locate the root accurately.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+h: 0.1;
+ya: djn(h)$
+roots: []$
+for xx from h thru 20 step h do {
+  yb: djn(xx),
+  if abs(yb)<1e-10 then roots: endcons(yb,roots),
+  if ya*yb<0 then roots: endcons(find_root(djn(x),x,xx-h,xx),roots),
+  ya: yb 
+  }$
+roots;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+You should be able to verify that the values in the above list correspond to the
+maxima  and minima of the graph of J_n.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Now we use a loop to plot the eigenfunction corresponding to each zero of
+the derivative we have found.  There are 5 plots and each one takes
+a few seconds to produce.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for m thru length(roots) do
+  wxplot3d(bessel_j(n,roots[m]*r)*cos(n*theta), [r, 0, 1],
+    [theta, 0, 6.28],[same_xyz,true],[axes,false],
+    [transform_xy,polar_to_xy],[mesh_lines_color, false],
+    [elevation, 0], [azimuth, 0], [grid, 150, 150],[legend,false],
+    [palette,[gradient,blue,green,red]],[box,false])$
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+/* [wxMaxima: section start ]
+Diffusion on a circular region with a symmetric initial condition (Exercise 16)
+   [wxMaxima: section end   ] */
+/* [wxMaxima: fold    start ] */
+/* [wxMaxima: input   start ] */
+kill(all);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define initial condition as in Example 5.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+c0(r):= a^2-r^2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The solution given in Example 5 is in terms of the Bessel function J_0(x), so set n=0.
+In order to plot solutions we need a fixed radius, so set a=2.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+n: 0;
+a: 2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define djn to be the derivative of J_n
+(Maxima can calculate this derivative symbolically).
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+djn(x):= ''(diff(bessel_j(n,x),x));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Find the zeros of J_0'(x)
+Let z[m] be the mth zero of J_0'(x) for 0<x<xmax
+The default value xmax=100 will calculate the first 32 roots of J_0'(x)
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+xmax: 100$
+h: 0.1$
+ya: djn(h)$
+z: []$
+for xx from 0 thru xmax step h do {
+  yb: djn(xx),
+  if abs(yb)<1e-10 then z: endcons(yb,z),
+  if ya*yb<0 then z: endcons(find_root(djn(x),x,xx-h,xx),z),
+  ya: yb 
+  }$
+length(z);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define the normalisation constants for the eigenfunctions.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(C)$
+C[m]:= 1/(a*sqrt(%pi)*bessel_j(0,z[m]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Define the Bessel expansion coefficients derived in Example 5.
+The first expansion coefficient needs to be defined separately as z[1] is zero.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(a01)$
+a01[1]: 2*%pi*C[1]*integrate(c0(r)*r,r,0,a);
+a01[m]:= 4*%pi*a**4*C[m]*bessel_j(2,z[m])/z[m]**2;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Plot the expansion coefficients to check that they are decaying to zero.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist([m,a01[m]],m,length(z))],[style,linespoints]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+We define c(r,theta,t,N) as the series given at the end of the Solution to Example 5,
+summed to N terms.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+c(r,theta,t,N):= sum(a01[m]*C[m]*bessel_j(0,z[m]*r/a)*exp(-z[m]^2*t),m,1,N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+Now we investigate the question posed in Exercise 16 of the text, namely
+investigating how many terms in this expansion are needed for this solution.
+In order to do this we compare the computed solution at t=0 with the
+initial condition.
+
+Change the value of N in the statement below (to say 5, 10, 15 and 20) to see
+when good agreement is reached.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+N: 1$
+wxplot2d([c0(r),c(r,0,0,N)],[r,0,a],
+  [legend,"Initial condition",printf(false,"Solution N=~a",N)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+You should find that a good agreement is achieved with 15 terms, so we can
+use this number to plot the solution at any time, such as the following
+plot at time t=1.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot3d(c(r,theta,1,15), [r, 0, a],
+    [theta, 0, 2*%pi],[same_xyz,true],[axes,false],
+    [transform_xy,polar_to_xy],[mesh_lines_color, false],
+    [elevation, 0], [azimuth, 0], [grid, 50, 50],[legend,false],
+    [palette,[gradient,blue,green,red]],[box,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+The time variation of the solution can also be plotted using this
+solution. The following plot of the evolution in time for the central
+maximum value shows that the concentration quickly decays to the average
+concentration.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d(c(0,0,t,15),[t,0,5]);
+/* [wxMaxima: input   end   ] */
+
+
+/* [wxMaxima: fold    end   ] */
+
+
+
+/* Old versions of Maxima abort on loading files that end in a comment. */
+"Created with wxMaxima 18.02.0"$
